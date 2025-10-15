@@ -2,6 +2,7 @@ const socket = io();
 
 let currentLocation = null;
 
+// use browser geolocation to get current position and send to server
 if (navigator.geolocation) {
   navigator.geolocation.watchPosition(
     (position) => {
@@ -24,7 +25,7 @@ if (navigator.geolocation) {
 const map = L.map("map").setView([0, 0], 16);
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: "Realtime Location Tracker by Kshitiz",
+  attribution: "Demo route locations - CodeDuo IL",
 }).addTo(map);
 
 const markers = {};
@@ -71,9 +72,9 @@ socket.on("receive-location", (data) => {
   const { id, latitude, longitude } = data;
   console.log(`Received location for ${id}: ${latitude}, ${longitude}`);
   map.setView([latitude, longitude]);
-  const [newLat, newLng] = addOffset(latitude, longitude);
+  //const [newLat, newLng] = addOffset(latitude, longitude);
   if (markers[id]) {
-    markers[id].setLatLng([newLat, newLng]);
+    markers[id].setLatLng([latitude, longitude]);
   } else {
     markers[id] = L.marker([newLat, newLng]).addTo(markerClusterGroup);
   }
