@@ -33,7 +33,7 @@ const markerClusterGroup = L.markerClusterGroup();
 map.addLayer(markerClusterGroup);
 
 const addOffset = (latitude, longitude) => {
-  const offset = 0.00001;
+  const offset = 0;
   const randomOffsetLat = (Math.random() - 0.5) * offset;
   const randomOffsetLng = (Math.random() - 0.5) * offset;
   return [latitude + randomOffsetLat, longitude + randomOffsetLng];
@@ -72,11 +72,11 @@ socket.on("receive-location", (data) => {
   const { id, latitude, longitude } = data;
   console.log(`Received location for ${id}: ${latitude}, ${longitude}`);
   map.setView([latitude, longitude]);
-  //const [newLat, newLng] = addOffset(latitude, longitude);
+  const [newLat, newLng] = addOffset(latitude, longitude);
   if (markers[id]) {
-    markers[id].setLatLng([latitude, longitude]);
+    markers[id].setLatLng([newLat, newLng]);
   } else {
-    markers[id] = L.marker([latitude, longitude]).addTo(markerClusterGroup);
+    markers[id] = L.marker([newLat, newLng]).addTo(markerClusterGroup);
   }
   updateLocationList(id, latitude, longitude);
 });
