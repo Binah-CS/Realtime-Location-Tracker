@@ -78,7 +78,7 @@ socket.on("receive-location", (data) => {
   } else {
     markers[id] = L.marker([newLat, newLng]).addTo(markerClusterGroup);
   }
-  updateLocationList(id, latitude, longitude);
+  updateLocationList(id, newLat, newLng);
 });
 
 socket.on("user-disconnected", (id) => {
