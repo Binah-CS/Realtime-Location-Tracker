@@ -76,7 +76,7 @@ socket.on("receive-location", (data) => {
   if (markers[id]) {
     markers[id].setLatLng([latitude, longitude]);
   } else {
-    markers[id] = L.marker([newLat, newLng]).addTo(markerClusterGroup);
+    markers[id] = L.marker([latitude, longitude]).addTo(markerClusterGroup);
   }
   updateLocationList(id, latitude, longitude);
 });
